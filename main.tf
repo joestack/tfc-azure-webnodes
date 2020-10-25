@@ -59,13 +59,13 @@ resource "azurerm_virtual_machine" "main" {
     version   = "latest"
   }
   storage_os_disk {
-    name              = "myosdisk1"
+    name              = format("${var.prefix}-disk-%02d", count.index + 1)
     caching           = "ReadWrite"
     create_option     = "FromImage"
     managed_disk_type = "Standard_LRS"
   }
   os_profile {
-    computer_name  = "hostname"
+    computer_name  = format("${var.prefix}-%02d", count.index + 1)
     admin_username = var.admin_username
     admin_password = var.admin_password
   }
