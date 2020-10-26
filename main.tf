@@ -35,6 +35,7 @@ resource "azurerm_network_interface" "main" {
     name                          = "internal"
     subnet_id                     = azurerm_subnet.internal.id
     private_ip_address_allocation = "Dynamic"
+    public_ip_address_id          = element(azurerm_public_ip.example.*.id, count.index )
   }
 }
 
@@ -90,7 +91,7 @@ resource "azurerm_linux_virtual_machine" "main" {
   size                = "Standard_F2"
   admin_username      = "ubuntu"
   network_interface_ids = [
-    element(azurerm_network_interface.main.*.id, count.index +1),
+    element(azurerm_network_interface.main.*.id, count.index ),
   ]
   #delete_os_disk_on_termination = true
   #delete_data_disks_on_termination = true
