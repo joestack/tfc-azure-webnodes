@@ -51,8 +51,8 @@ resource "azurerm_linux_virtual_machine" "main" {
   network_interface_ids = [
     element(azurerm_network_interface.main.*.id, count.index +1),
   ]
-  delete_os_disk_on_termination = true
-  delete_data_disks_on_termination = true
+  #delete_os_disk_on_termination = true
+  #delete_data_disks_on_termination = true
 
 
   admin_ssh_key {
