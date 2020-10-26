@@ -67,11 +67,11 @@ resource "azurerm_linux_virtual_machine" "main" {
   #delete_os_disk_on_termination = true
   #delete_data_disks_on_termination = true
 
-  ip_configuration {
-    name                 = format("configuration-%02d", count.index + 1)
-    subnet_id            = azurerm_subnet.main.id
-    public_ip_address_id = azurerm_public_ip.example.id
-  }
+  #ip_configuration {
+  #  name                 = format("configuration-%02d", count.index + 1)
+  #  subnet_id            = azurerm_subnet.main.id
+  #  public_ip_address_id = azurerm_public_ip.example.id
+  #}
 
   admin_ssh_key {
     username   = "ubuntu"
