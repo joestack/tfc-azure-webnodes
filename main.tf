@@ -40,25 +40,15 @@ resource "azurerm_network_interface" "main" {
 
 
 ### bastion host
+####
 
-resource "azurerm_public_ip" "bastion" {
-  name                = "bastion"
+resource "azurerm_public_ip" "example" {
+  count               = var.web_node_count
+  name                = format("publicip-%02d", count.index + 1)
   location            = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
   allocation_method   = "Static"
   sku                 = "Standard"
-}
-
-resource "azurerm_bastion_host" "main" {
-  name                = "bastion"
-  location            = azurerm_resource_group.main.location
-  resource_group_name = azurerm_resource_group.main.name
-
-  ip_configuration {
-    name                 = "configuration"
-    subnet_id            = azurerm_subnet.main.id
-    public_ip_address_id = azurerm_public_ip.bastion.id
-  }
 }
 
 
@@ -77,6 +67,11 @@ resource "azurerm_linux_virtual_machine" "main" {
   #delete_os_disk_on_termination = true
   #delete_data_disks_on_termination = true
 
+  ip_configuration {
+    name                 = format("configuration-%02d", count.index + 1)
+    subnet_id            = azurerm_subnet.main.id
+    public_ip_address_id = azurerm_public_ip.example.id
+  }
 
   admin_ssh_key {
     username   = "ubuntu"
